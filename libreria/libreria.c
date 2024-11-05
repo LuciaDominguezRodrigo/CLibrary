@@ -45,7 +45,7 @@ int tail(int N) {
     if (N <= 0) return 0;
 
     // Crear un búfer dinámico para almacenar punteros a las líneas
-    char** lines_buffer = (char**)malloc(N * sizeof(char));
+    char** lines_buffer = (char**)malloc(N * sizeof(char*));
     if (!lines_buffer) {
         fputs("Error al asignar memoria para el búfer de líneas\n", stdout);
         return 1;
@@ -78,7 +78,7 @@ int tail(int N) {
     int total_lines = line_count < N ? line_count : N;
     fputs("\n", stdout); //Se separa la respuesta de tail con un \n por legibilidad
     for (int i = 0; i < total_lines; i++) {
-        fputs(lines_buffer[(start + i) % N], stdout); //Revisar % N, pues no es necesario?
+        fputs(lines_buffer[(start + i) % N], stdout); //Se usa % N para evitar acceder a direcciones de memoria no permitidas
     }
 
     // Liberar memoria asignada
