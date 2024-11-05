@@ -26,12 +26,14 @@ int head(int N) {
     char buffer[MAX_LINE_LENGTH];
 
     //fgets sera NULL cuando se haya llegado al final del archivo o haya un error de lectura
-    while((count < N) && fgets(buffer, 1024, stdin) != NULL)
+    while((count < N) && fgets(buffer, MAX_LINE_LENGTH, stdin) != NULL)
     {
         fputs(buffer, stdout);
         count++;
     }
-    return 0;
+
+    if(count == N) return 0;
+    else return 1;
 }
 
 /**
@@ -61,7 +63,7 @@ int tail(int N) {
                 free(lines_buffer[j]);
             }
             free(lines_buffer);
-            return 1;
+            return 2;
         }
     }
 
@@ -69,7 +71,7 @@ int tail(int N) {
     char* current_line;
     // Leer el stdin línea por línea, almacenando en un ciclo de N posiciones
     while (!feof(stdin)) {
-        current_line = fgets(lines_buffer[line_count % N], MAX_LINE_LENGTH, stdin);
+        current_line = fgets(lines_buffer[line_count +], MAX_LINE_LENGTH, stdin);
         if (current_line != NULL) line_count++;
     }
 
@@ -150,22 +152,22 @@ void insertLineList(Line newLine, Line* list, int* size, int N) {
 int longlines(int N) {
     if (N <= 0) return 0;
 
-    Line* list = malloc(N * sizeof(Line));
+    Line* list = (Line*)malloc(N * sizeof(Line));
     if (!list) {
         fputs("Error al asignar memoria para la lista de líneas\n", stdout);
         return 1;
     }
-    int tamano = 0;
+    int lsize = 0;
     char linebuffer[MAX_LINE_LENGTH];
 
     while (fgets(linebuffer, MAX_LINE_LENGTH, stdin) != NULL) {
-        Line linea = createLine(linebuffer);
-        insertLineList(linea,list, &tamano, N);
+        Line line = createLine(linebuffer);
+        insertLineList(line,list, &lsize, N);
     }
 
     // Imprimir las N líneas más largas
     fputs("\nLíneas más largas:\n", stdout);
-    for (int i = 0; i < tamano; i++) {
+    for (int i = 0; i < lsize; i++) {
         fputs(list[i].content, stdout);
         free(list[i].content);  // Liberar la memoria de cada línea después de imprimirla
     }

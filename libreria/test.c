@@ -30,13 +30,14 @@ int main(int argc, char *argv[]) {
     int i;
 
     if(argc > 3) {
-        printf("El numero de parametros introducido no es correcto\n");
+        printf("El numero de argumentos introducido no es correcto\n");
+        return 1;
     }
     else if(argc == 3) {
         i = atoi(argv[2]);
         if(i == 0 && strcmp(argv[2], "0") != 0) {
             printf("El formato del segundo argumento introducido no es correcto\n");
-            return 1;
+            return 2;
         }
     }
     else {
@@ -57,6 +58,6 @@ int main(int argc, char *argv[]) {
 
     else {
         printf("Error. La extension introducida no es correcta\n");
-        return 2;
+        return 3;
     }
 }
