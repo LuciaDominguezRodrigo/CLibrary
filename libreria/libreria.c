@@ -22,10 +22,14 @@ typedef struct {              // Contenido de la línea
  */
 
 int head(int N) {
+    int count = 0;
     char buffer[MAX_LINE_LENGTH];
-    for(int i = 0; i < N; i++) {
-        fgets(buffer, MAX_LINE_LENGTH, stdin);
+
+    //fgets sera NULL cuando se haya llegado al final del archivo o haya un error de lectura
+    while((count < N) && fgets(buffer, 1024, stdin) != NULL)
+    {
         fputs(buffer, stdout);
+        count++;
     }
     return 0;
 }
@@ -74,7 +78,7 @@ int tail(int N) {
     int total_lines = line_count < N ? line_count : N;
     fputs("\n", stdout); //Se separa la respuesta de tail con un \n por legibilidad
     for (int i = 0; i < total_lines; i++) {
-        fputs(lines_buffer[(start + i) % N], stdout);
+        fputs(lines_buffer[(start + i) % N], stdout); //Revisar % N, pues no es necesario?
     }
 
     // Liberar memoria asignada
@@ -98,7 +102,7 @@ Line createLine(const char* lineContent) {
     line.size = strlen(lineContent);
     line.content = (char*)malloc((line.size + 1) * sizeof(char));
     if (line.content) {
-        strcpy(line.content, lineContent);
+        strcpy(line.content, lineContent); //Se podria sustituir con *line.content = lineContent
     }
     return line;
 }
@@ -113,7 +117,7 @@ Line createLine(const char* lineContent) {
  * @param N Número máximo de líneas a almacenar en la lista.
  */
 
-void insertLineList( Line newLine, Line* list, int* size, int N) {
+void insertLineList(Line newLine, Line* list, int* size, int N) {
     int pos = *size;
     // Encontrar la posición correcta para insertar en orden descendente de longitud
     while (pos > 0 && list[pos - 1].size < newLine.size) {
