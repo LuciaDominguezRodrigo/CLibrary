@@ -71,7 +71,7 @@ int tail(int N) {
     char* current_line;
     // Leer el stdin línea por línea, almacenando en un ciclo de N posiciones
     while (!feof(stdin)) {
-        current_line = fgets(lines_buffer[line_count +], MAX_LINE_LENGTH, stdin);
+        current_line = fgets(lines_buffer[line_count %N], MAX_LINE_LENGTH, stdin);
         if (current_line != NULL) line_count++;
     }
 
