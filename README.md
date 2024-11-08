@@ -1,13 +1,13 @@
 # <p align="center"> CLibrary </p>
 ## 📑Index
-- [General Information](#general-information)
-  - [Idea](#idea)
+- [General Information](#%EF%B8%8Fgeneral-information)
+  - [Idea](#%EF%B8%8Fidea)
   - [Team members](#team-members)
 - [Functions](#functions)
-  - [Head](#head)
-  - [Tail](#tail)
-  - [Longlines](#longlines)
-- [Steps for executing the program](#steps-for-executing-the-program)
+  - [Head](#%EF%B8%8Fhead)
+  - [Tail](#%EF%B8%8Ftail)
+  - [Longlines](#%EF%B8%8Flonglines)
+- [Steps for executing the program](#-steps-for-executing-the-program)
 
 
 ***   
