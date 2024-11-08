@@ -1,13 +1,13 @@
 # <p align="center"> CLibrary </p>
 ## 📑Index
-- [General Information](general-information)
-  - [Idea](idea)
-  - [Team members](team-members)
-- [Functions](functions)
-  - [Head](head)
-  - [Tail](tail)
-  - [Longlines](longlines)
-- [Steps for executing the program](steps-for-executing-the-program)
+- [General Information](#general-information)
+  - [Idea](#idea)
+  - [Team members](#team-members)
+- [Functions](#functions)
+  - [Head](#head)
+  - [Tail](#tail)
+  - [Longlines](#longlines)
+- [Steps for executing the program](#steps-for-executing-the-program)
 
 
 ***   
@@ -36,3 +36,4 @@ Finds and prints ins tandar output the longest N lines readed from estandar inpu
  - Open a terminal (indicated in the options that the IDE ofers)
  - Execute compila.sh, writing ./compila.sh after the prompt.
  - After that, for executing fuctions, write after the prompt: ./test.exe -functionExtension N
+ - For executing fuctions with files, write after the prompt: ./test.exe -functionExtension N < .fileRoute/filename.ext
