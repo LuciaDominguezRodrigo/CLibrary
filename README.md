@@ -14,7 +14,7 @@
 ## ⌨️General Information
 
 ### 🖋️Idea
-This library contains 3 functions: head, tail and longlines. All fucntions explain below.
+This library contains 3 functions: head, tail and longlines. All functions explain below.
 
 
 ### 👷Team members
