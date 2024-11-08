@@ -99,7 +99,7 @@ int tail(int N) {
  * Inserts a new line into the ordered list of lines, maintaining order from
  * longest to shortest length.
  *
- * @param list      Array of LineEntry structures where each entry contains a line and its length.
+ * @param list      pointer to lineEntry structures where each entry contains a line and its length.
  * @param N         Maximum number of entries the list can hold.
  * @param newLine   Pointer to the new line to be inserted.
  * @param newLength Length of the new line in characters (not bytes).
@@ -110,7 +110,7 @@ int tail(int N) {
  * has N entries, the shortest line is removed to make space if the new line
  * is among the N longest lines.
  */
-void insertLine(LineEntry list[], int N, const char *newLine, int newLength) {
+void insertLine(LineEntry *list, int N, const char *newLine, int newLength) {
     int i, j;
 
     // Find the position where the new line should be inserted
@@ -139,7 +139,7 @@ void insertLine(LineEntry list[], int N, const char *newLine, int newLength) {
  * count in descending order.
  *
  * @param N  Number of longest lines to print to stdout.
- * @return   int Status code: 0 if the function executes successfully, 1 otherwise.
+ * @return   int Status code: 0 if the function executes successfully, 2 in case of error in asigning memory,1 otherwise.
  *
  * The function configures the environment for UTF-8 to handle special characters
  * and reads lines from standard input. It keeps track of the N longest lines
@@ -155,7 +155,11 @@ int longlines(int N) {
 
         // Set the environment to UTF-8 to handle special characters
         setlocale(LC_ALL, "");
-        LineEntry list[N]; // Array to store the lines and their lengths. Size: N
+        LineEntry *list = malloc(N * sizeof(LineEntry));
+        if (list == NULL) {
+            fprintf(stderr, "Error al asignar memoria\n");
+            exit(2);
+        }
         char temporalLine[MAX_LINE_LENGTH];
         wchar_t wideLine[MAX_LINE_LENGTH];
         int i;
@@ -187,6 +191,8 @@ int longlines(int N) {
                 printf("%i - %s (Longitud en caracteres: %d)\n", i + 1, list[i].line, list[i].length);
             }
         }
+        // free memory
+        free(list);
     }
     return 0;
 }
