@@ -71,12 +71,8 @@ int tail(int N) {
 
     int line_count = 0;
     // Read the stdin line by line, storing in a loop of N positions
-    while (!feof(stdin)) {
-        char * current_line = fgets(lines_buffer[line_count % N], MAX_LINE_LENGTH, stdin);
-
-        current_line = fgets(lines_buffer[line_count % N], MAX_LINE_LENGTH, stdin);
-
-        if (current_line != NULL) line_count++;
+    while (fgets(lines_buffer[line_count % N], MAX_LINE_LENGTH, stdin) != NULL) {
+        line_count++;
     }
 
     // Print the last N lines in order
@@ -87,11 +83,13 @@ int tail(int N) {
         fputs(lines_buffer[(start + i) % N], stdout); //% N is used to avoid accessing illegal memory addresses
     }
 
+    fputs("\n", stdout);
     // Release allocated memory
     for (int i = 0; i < N; i++) {
         free(lines_buffer[i]);
     }
     free(lines_buffer);
+
 
     return 0;
 }
