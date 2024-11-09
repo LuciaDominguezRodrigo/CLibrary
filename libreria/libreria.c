@@ -9,7 +9,7 @@
 //constants
 #define MAX_LINE_LENGTH 1024  // Max length allow on a line
 
-//Structure (representing a tipe ) that represents a line of text with its content and size.
+//Structure (representing a type) that represents a line of text with its content and size.
 typedef struct {
     char line[MAX_LINE_LENGTH]; // Save the text corresponding to the line
     int length;      // Save the length of the line
@@ -46,10 +46,12 @@ int head(int N) {
  */
 
 int tail(int N) {
-    if (N <= 0) return 0;
-
     // Create a dynamic buffer to store pointers to lines
     char** lines_buffer = (char**)malloc(N * sizeof(char*));
+    int line_count = 0;
+
+    if (N <= 0) return 0;
+
     if (!lines_buffer) {
         fputs("Error al asignar memoria para el búfer de líneas\n", stdout);
         return 1;
@@ -69,7 +71,7 @@ int tail(int N) {
         }
     }
 
-    int line_count = 0;
+
     // Read the stdin line by line, storing in a loop of N positions
     while (fgets(lines_buffer[line_count % N], MAX_LINE_LENGTH, stdin) != NULL) {
         line_count++;
@@ -112,7 +114,6 @@ int tail(int N) {
  */
 void insertLine(LineEntry *list, int N, const char *newLine, int newLength) {
     int i, j;
-
     // Find the position where the new line should be inserted
     for (i = 0; i < N; i++) {
         if (newLength > list[i].length) {
@@ -150,16 +151,18 @@ void insertLine(LineEntry *list, int N, const char *newLine, int newLength) {
 int longlines(int N) {
     if (N <= 0) {
         fprintf(stderr, "Error en el valor introducido (tiene que ser mayor que 0)\n");
-        exit(1);
+        return 1;
     } else {
 
         // Set the environment to UTF-8 to handle special characters
         setlocale(LC_ALL, "");
+
         LineEntry *list = malloc(N * sizeof(LineEntry));
         if (list == NULL) {
             fprintf(stderr, "Error al asignar memoria\n");
-            exit(2);
+            return 2;
         }
+
         char temporalLine[MAX_LINE_LENGTH];
         wchar_t wideLine[MAX_LINE_LENGTH];
         int i;
