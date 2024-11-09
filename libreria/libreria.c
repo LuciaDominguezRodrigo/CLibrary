@@ -46,24 +46,26 @@ int head(int N) {
  */
 
 int tail(int N) {
-    // Create a dynamic buffer to store pointers to lines
-    char** lines_buffer = (char**)malloc(N * sizeof(char*));
-    int line_count = 0;
+    char** lines_buffer;
+    int line_count;
+    int i, j, start, total_lines;
 
     if (N <= 0) return 0;
 
+    // Create a dynamic buffer to store pointers to lines
+    lines_buffer = (char**)malloc(N * sizeof(char*));
     if (!lines_buffer) {
         fputs("Error al asignar memoria para el búfer de líneas\n", stdout);
         return 1;
     }
 
     // Initialize the buffer with space for each line
-    for (int i = 0; i < N; i++) {
+    for (i = 0; i < N; i++) {
         lines_buffer[i] = (char*)malloc(MAX_LINE_LENGTH * sizeof(char));
         if (!lines_buffer[i]) {
             fputs("Error al asignar memoria para una línea\n", stdout);
             // Liberar memoria parcialmente asignada
-            for (int j = 0; j < i; j++) {
+            for (j = 0; j < i; j++) {
                 free(lines_buffer[j]);
             }
             free(lines_buffer);
@@ -71,27 +73,26 @@ int tail(int N) {
         }
     }
 
-
+    line_count = 0;
     // Read the stdin line by line, storing in a loop of N positions
     while (fgets(lines_buffer[line_count % N], MAX_LINE_LENGTH, stdin) != NULL) {
         line_count++;
     }
 
     // Print the last N lines in order
-    int start = line_count > N ? line_count % N : 0;
-    int total_lines = line_count < N ? line_count : N;
+    start = line_count > N ? line_count % N : 0;
+    total_lines = line_count < N ? line_count : N;
     fputs("\n", stdout); //Separate the tail response with a \n for readability
-    for (int i = 0; i < total_lines; i++) {
+    for (i = 0; i < total_lines; i++) {
         fputs(lines_buffer[(start + i) % N], stdout); //% N is used to avoid accessing illegal memory addresses
     }
 
     fputs("\n", stdout);
     // Release allocated memory
-    for (int i = 0; i < N; i++) {
+    for (i = 0; i < N; i++) {
         free(lines_buffer[i]);
     }
     free(lines_buffer);
-
 
     return 0;
 }
@@ -114,6 +115,7 @@ int tail(int N) {
  */
 void insertLine(LineEntry *list, int N, const char *newLine, int newLength) {
     int i, j;
+
     // Find the position where the new line should be inserted
     for (i = 0; i < N; i++) {
         if (newLength > list[i].length) {
@@ -149,6 +151,11 @@ void insertLine(LineEntry *list, int N, const char *newLine, int newLength) {
  * An error is printed, and the function exits if N is not greater than 0.
  */
 int longlines(int N) {
+
+    char temporalLine[MAX_LINE_LENGTH];
+    wchar_t wideLine[MAX_LINE_LENGTH];
+    int i, byteLength, charLength;
+
     if (N <= 0) {
         fprintf(stderr, "Error en el valor introducido (tiene que ser mayor que 0)\n");
         return 1;
@@ -163,10 +170,6 @@ int longlines(int N) {
             return 2;
         }
 
-        char temporalLine[MAX_LINE_LENGTH];
-        wchar_t wideLine[MAX_LINE_LENGTH];
-        int i;
-
         // Initialize the list with length 0 to allow comparison
         for (i = 0; i < N; i++) {
             list[i].line[0] = '\0';
@@ -175,14 +178,14 @@ int longlines(int N) {
 
         // Read the input lines and process each one
         while (fgets(temporalLine, MAX_LINE_LENGTH, stdin)) {
-            int byteLength = strlen(temporalLine); // Calculate the length in bytes
+            byteLength = strlen(temporalLine); // Calculate the length in bytes
             if (temporalLine[byteLength - 1] == '\n') {
                 temporalLine[byteLength - 1] = '\0'; // Remove the line break at the end
             }
 
             // Convert timeline from char* to wchar_t*
             mbstowcs(wideLine, temporalLine, MAX_LINE_LENGTH);
-            int charLength = wcslen(wideLine);  // Calculates the length in characters
+            charLength = wcslen(wideLine);  // Calculates the length in characters
 
             // Insert the line into the list of the N longest lines
             insertLine(list, N, temporalLine, charLength);
